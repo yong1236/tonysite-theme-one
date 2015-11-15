@@ -2,7 +2,7 @@
 
 // 小工具
 include("includes/sidebars.php");
-include("includes/widget.php");
+include("includes/widget.php"); //命名为widget.php将失效，不知是为什么
 
 
 //在系统设置完主题后调用

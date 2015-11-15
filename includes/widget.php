@@ -1,441 +1,472 @@
 <?php
+/**
+ * TonySiteOne Widgets
+ *
+ * @package WordPress
+ * @subpackage Widgets
+ */
 
-// 关注我
-class SocialMediaWidget extends WP_Widget
-{
-   function SocialMediaWidget()
-   {
-      $widget_ops = array(
-         'classname' => 'social_widget',
-         'description' => '自定义关注我小工具，包括社交按钮与个人简介'
-      );
-      $this->WP_Widget('social_networks', 'Salong-关注我', $widget_ops);
-   }
-   function widget($args, $instance)
-   {
-      extract($args);
-      $title      = apply_filters('widget_title', $instance['title']);
-      $title_link = strip_tags($instance['title_link']);
-      if (!empty($title_link)) {
-         $title_page = get_post($title_link);
-      }
-      echo $before_widget;
-      if (!empty($title)) {echo $before_title;}
-      if (!empty($title_link)) {
-         echo "<a href=\"" . get_permalink($title_page->ID) . "\">";
-      }
-      if (empty($title)) {
-         echo $title_page->post_title;
-      } else {
-         echo $title;
-      }
-      if (!empty($title_link)) {
-         echo "</a>";
-      }
+/**
+ * Search widget class
+ *
+ * @since 2.8.0
+ */ 
+class TS_Widget_Search extends WP_Widget {
+    public function __construct() {
+		$widget_ops = array('classname' => 'widget_search', 'description' => __( "A search form for your site.") );
+		parent::__construct( 'ts_search', 'Tonysite - ' . _x( 'Search', 'Search widget' ), $widget_ops );
+	}
 
-if (!empty($title)) {echo $after_title;}
+	/**
+	 * @param array $args
+	 * @param array $instance
+	 */
+	public function widget( $args, $instance ) {
+		/** This filter is documented in wp-includes/default-widgets.php */
+		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base );
+
+		echo $args['before_widget'];
+		if ( $title ) {
+			echo $args['before_title'] . $title . $args['after_title'];
+		}
+
+		// Use current theme search form if it exists
+		//get_search_form();
 ?>
-
-<section class="social-icons">
-<p><?php echo stripslashes(get_option('sl_follow_text')); ?></p>
-<!-- 微信按钮 -->
-  <section class="qr left">
-    <span><a class="icons"><i class="icon-weixin"></i></a></span>
-    <div class="weixin_content" style="display:none;">
-      <div class="weixin_bg">
-        <?php $weixin_path = get_option('sl_weixin');
-        if(!empty($weixin_path)) { ?>
-        <img src="<?php echo $weixin_path; ?>" alt="<?php  bloginfo( 'name' ); ?>微信">
-        <?php }?>
-        <p><?php echo stripslashes(get_option('sl_follow_weixin')); ?></p>
-      </div>
-    </div>
-  </section>
-<!-- 微信按钮end -->
-<!-- 社交图标 -->
-<?php include('social.php'); ?>
-<!-- 社交图标end -->
-<div class="clearfix"></div>
-</section>
+        <form role="search">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="请输入主题搜索">
+              <a type="submit" class="btn btn-default input-group-addon"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a>
+            </div>
+        </form>
 <?php
-      echo $after_widget;
-   }
-   function update($new_instance, $old_instance)
-   {
-      $instance               = $old_instance;
-      $instance['title']      = strip_tags($new_instance['title']);
-      $instance['title_link'] = $new_instance['title_link'];
-      return $instance;
-   }
-   function form($instance)
-   {
-      $instance   = wp_parse_args((array) $instance, array(
-         'title' => '',
-         'text' => '',
-         'title_link' => ''
-      ));
-      $title      = strip_tags($instance['title']);
-      $title_link = strip_tags($instance['title_link']);
-      $text       = format_to_edit($instance['text']);
+
+		echo $args['after_widget'];
+	}
+
+	/**
+	 * @param array $instance
+	 */
+	public function form( $instance ) {
+		$instance = wp_parse_args( (array) $instance, array( 'title' => '') );
+		$title = $instance['title'];
 ?>
-<p>
-  <label for="<?php
-      echo $this->get_field_id('title');
-?>">标题：</label>
-  <input id="<?php
-      echo $this->get_field_id('title');
-?>" name="<?php
-      echo $this->get_field_name('title');
-?>" type="text" value="<?php
-      echo esc_attr($title);
-?>" />
-</p>
-<p>
-  <label for="<?php
-      echo $this->get_field_id('title_link');
-?>">链接：</label>
-  <?php
-      wp_dropdown_pages(array(
-         'selected' => $title_link,
-         'name' => $this->get_field_name('title_link'),
-         'show_option_none' => '不链接',
-         'sort_column' => 'menu_order, post_title'
-      ));
-?>
-</p>
+		<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($title); ?>" /></label></p>
 <?php
-   }
+	}
+
+	/**
+	 * @param array $new_instance
+	 * @param array $old_instance
+	 * @return array
+	 */
+	public function update( $new_instance, $old_instance ) {
+		$instance = $old_instance;
+		$new_instance = wp_parse_args((array) $new_instance, array( 'title' => ''));
+		$instance['title'] = strip_tags($new_instance['title']);
+		return $instance;
+	}
 }
-add_action('widgets_init', create_function('', 'return register_widget("SocialMediaWidget");'));
+add_action('widgets_init', create_function('', 'return register_widget("TS_Widget_Search");'));
 
 
-// 热门文章
-add_action('widgets_init', create_function('', 'return register_widget("sl_hotpost");'));
+/**
+ * Categories widget class
+ *
+ * @since 2.8.0
+ */
+class TS_Widget_Categories extends WP_Widget {
 
-class sl_hotpost extends WP_Widget {
-    function __construct() {
-      $widget_ops = array('description' => '主题自带热门文章小工具');
-      parent::__construct('sl_hotpost', 'Salong-热门文章', $widget_ops);
-    }
-    function widget($args, $instance) {
-      extract($args);
-      $title = apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base );
-      
-      echo $before_widget;
-      if(!empty($title)){
-        echo $before_title.$title.$after_title;
-      }
-      echo '<ul class="'.$className.'">';
-      sl_hotpost($instance['limit']);
-      echo '</ul>';
-      echo $after_widget;
-    }
-    function update($new_instance, $old_instance) {
-      $instance = $old_instance;
-      $instance['title'] = strip_tags($new_instance['title']);
-      $instance['limit'] = absint($new_instance['limit']);
-      return $instance;
-    }
-    function form($instance) {
-    $instance = wp_parse_args( (array) $instance, array( 
-      'title' => '热门文章',
-      'limit' => '6' 
-      ) 
-    );
-      $instance = wp_parse_args((array) $instance, array('title' => '热门文章', 'limit' => 10));
-      $title = esc_attr($instance['title']);
-      $limit = isset($instance['limit']) ? absint($instance['limit']) : 10;
-      ?>
-        <p>
-            <label for="<?php echo $this->get_field_id('title'); ?>">标题：<input id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" /></label>
-        </p>
-        <p>
-            <label for="<?php echo $this->get_field_id('limit'); ?>">数量：<input id="<?php echo $this->get_field_id('limit'); ?>" name="<?php echo $this->get_field_name('limit'); ?>" type="text" value="<?php echo $limit; ?>" /></label>
-        </p>
-        <input type="hidden" id="<?php echo $this->get_field_id('submit'); ?>" name="<?php echo $this->get_field_name('submit'); ?>" value="1" />
-      <?php
-    }
-  }
-function sl_hotpost($limit){
-    
-    $queryObject = new WP_Query( apply_filters( 'widget_posts_args', array('caller_get_posts'=> '1', 'posts_per_page' => $limit , 'orderby' => 'comment_count' ) ) ); 
+	public function __construct() {
+		$widget_ops = array( 'classname' => 'widget_categories', 'description' => __( "A list or dropdown of categories." ) );
+		parent::__construct('ts_categories', 'Tonysite - ' . __('Categories'), $widget_ops);
+	}
 
-    if ($queryObject->have_posts()) {
-      while ($queryObject->have_posts()) {
-        $queryObject->the_post();
-        $commentcount = get_comments_number();
-        ?>
-          <li><a href="<?php echo get_permalink( get_the_ID() ); ?>" title="详细阅读 <?php the_title_attribute() ?> (<?php printf( _n( '1', '%s', $commentcount, 'salong' ), $commentcount );  ?>)"><?php the_title() ?></a></li>
-        <?php 
-      }
-    }
-    wp_reset_postdata();
-  }
+	/**
+	 * @staticvar bool $first_dropdown
+	 *
+	 * @param array $args
+	 * @param array $instance
+	 */
+	public function widget( $args, $instance ) {
+		static $first_dropdown = true;
 
+		/** This filter is documented in wp-includes/default-widgets.php */
+		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? __( 'Categories' ) : $instance['title'], $instance, $this->id_base );
 
+		$c = ! empty( $instance['count'] ) ? '1' : '0';
+		$h = ! empty( $instance['hierarchical'] ) ? '1' : '0';
+		$d = ! empty( $instance['dropdown'] ) ? '1' : '0';
 
-// 置顶文章
-add_action('widgets_init', create_function('', 'return register_widget("sl_sticky");'));
+		echo $args['before_widget'];
+		echo '<div class="panel panel-default">';
+		if ( $title ) {
+			//echo $args['before_title'] . $title . $args['after_title'];
+			echo '<div class="panel-heading"><h4 class="panel-title">' . $title . '</h4></div>';
+		}
 
-class sl_sticky extends WP_Widget {
-  function sl_sticky() {
-    global $prename;
-    $this->WP_Widget('sl_sticky', $prename.'Salong-置顶文章 ', array( 'description' => '主题自带置顶文章小工具' ));
-  }
-  function widget($args, $instance) {
-    extract($args, EXTR_SKIP);
-    echo $before_widget;
-    $title = apply_filters('widget_name', $instance['title']);
-    $limit = $instance['limit'];
+		$cat_args = array(
+			'orderby'      => 'name',
+			'show_count'   => $c,
+			'hierarchical' => $h
+		);
 
-    echo $before_title.$title.$after_title; 
-    echo '<ul>';
-    echo sl_sticky( $limit );;
-    echo '</ul>';
-    echo $after_widget;
-  }
-  function update($new_instance, $old_instance) {
-    $instance = $old_instance;
-    $instance['title'] = strip_tags($new_instance['title']);
-    $instance['limit'] = strip_tags($new_instance['limit']);
-    return $instance;
-  }
-  function form($instance) {
-    $instance = wp_parse_args( (array) $instance, array( 
-      'title' => '置顶文章',
-      'limit' => '10' 
-      ) 
-    );
-    $title = strip_tags($instance['title']);
-    $limit = strip_tags($instance['limit']);
+		if ( $d ) {
+			$dropdown_id = ( $first_dropdown ) ? 'cat' : "{$this->id_base}-dropdown-{$this->number}";
+			$first_dropdown = false;
+
+			echo '<label class="screen-reader-text" for="' . esc_attr( $dropdown_id ) . '">' . $title . '</label>';
+
+			$cat_args['show_option_none'] = __( 'Select Category' );
+			$cat_args['id'] = $dropdown_id;
+
+			/**
+			 * Filter the arguments for the Categories widget drop-down.
+			 *
+			 * @since 2.8.0
+			 *
+			 * @see wp_dropdown_categories()
+			 *
+			 * @param array $cat_args An array of Categories widget drop-down arguments.
+			 */
+			wp_dropdown_categories( apply_filters( 'widget_categories_dropdown_args', $cat_args ) );
 ?>
-<p>
-  <label> 标题：
-    <input id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $instance['title']; ?>" />
-  </label>
-</p>
-<p>
-  <label> 数目：
-    <input id="<?php echo $this->get_field_id('limit'); ?>" name="<?php echo $this->get_field_name('limit'); ?>" type="number" value="<?php echo $instance['limit']; ?>" />
-  </label>
-</p>
+
+<script type='text/javascript'>
+/* <![CDATA[ */
+(function() {
+	var dropdown = document.getElementById( "<?php echo esc_js( $dropdown_id ); ?>" );
+	function onCatChange() {
+		if ( dropdown.options[ dropdown.selectedIndex ].value > 0 ) {
+			location.href = "<?php echo home_url(); ?>/?cat=" + dropdown.options[ dropdown.selectedIndex ].value;
+		}
+	}
+	dropdown.onchange = onCatChange;
+})();
+/* ]]> */
+</script>
+
 <?php
-  }
+		} else {
+?>
+		<ul class="list-unstyled">
+<?php
+		$cat_args['title_li'] = '';
+
+		/**
+		 * Filter the arguments for the Categories widget.
+		 *
+		 * @since 2.8.0
+		 *
+		 * @param array $cat_args An array of Categories widget options.
+		 */
+		wp_list_categories( apply_filters( 'widget_categories_args', $cat_args ) );
+?>
+		</ul>
+<?php
+		}
+        
+        echo '</div>';
+		echo $args['after_widget'];
+	}
+
+	/**
+	 * @param array $new_instance
+	 * @param array $old_instance
+	 * @return array
+	 */
+	public function update( $new_instance, $old_instance ) {
+		$instance = $old_instance;
+		$instance['title'] = strip_tags($new_instance['title']);
+		$instance['count'] = !empty($new_instance['count']) ? 1 : 0;
+		$instance['hierarchical'] = !empty($new_instance['hierarchical']) ? 1 : 0;
+		$instance['dropdown'] = !empty($new_instance['dropdown']) ? 1 : 0;
+
+		return $instance;
+	}
+
+	/**
+	 * @param array $instance
+	 */
+	public function form( $instance ) {
+		//Defaults
+		$instance = wp_parse_args( (array) $instance, array( 'title' => '') );
+		$title = esc_attr( $instance['title'] );
+		$count = isset($instance['count']) ? (bool) $instance['count'] :false;
+		$hierarchical = isset( $instance['hierarchical'] ) ? (bool) $instance['hierarchical'] : false;
+		$dropdown = isset( $instance['dropdown'] ) ? (bool) $instance['dropdown'] : false;
+?>
+		<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e( 'Title:' ); ?></label>
+		<input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" /></p>
+
+		<p><input type="checkbox" class="checkbox" id="<?php echo $this->get_field_id('dropdown'); ?>" name="<?php echo $this->get_field_name('dropdown'); ?>"<?php checked( $dropdown ); ?> />
+		<label for="<?php echo $this->get_field_id('dropdown'); ?>"><?php _e( 'Display as dropdown' ); ?></label><br />
+
+		<input type="checkbox" class="checkbox" id="<?php echo $this->get_field_id('count'); ?>" name="<?php echo $this->get_field_name('count'); ?>"<?php checked( $count ); ?> />
+		<label for="<?php echo $this->get_field_id('count'); ?>"><?php _e( 'Show post counts' ); ?></label><br />
+
+		<input type="checkbox" class="checkbox" id="<?php echo $this->get_field_id('hierarchical'); ?>" name="<?php echo $this->get_field_name('hierarchical'); ?>"<?php checked( $hierarchical ); ?> />
+		<label for="<?php echo $this->get_field_id('hierarchical'); ?>"><?php _e( 'Show hierarchy' ); ?></label></p>
+<?php
+	}
+
 }
+add_action('widgets_init', create_function('', 'return register_widget("TS_Widget_Categories");'));
 
-function sl_sticky($limit){
-  $sticky = get_option('sticky_posts');rsort( $sticky );$sticky = array_slice( $sticky, 0, $limit );
-  query_posts( array( 'post__in' => $sticky, 'caller_get_posts' => 1 ) );
-  while (have_posts()) : the_post();
 
-  echo '<li><a href="'.get_permalink().'" title="详细阅读 '.get_the_title().'">'.get_the_title().'</a></li>';
-  endwhile; wp_reset_query();
+/**
+ * Recent_Posts widget class
+ *
+ * @since 2.8.0
+ */
+class TS_Widget_Recent_Posts extends WP_Widget {
+
+	public function __construct() {
+		$widget_ops = array('classname' => 'widget_recent_entries', 'description' => __( "Your site&#8217;s most recent Posts.") );
+		parent::__construct('ts_recent-posts', 'Tonysite - ' . __('Recent Posts'), $widget_ops);
+		$this->alt_option_name = 'widget_recent_entries';
+
+		add_action( 'save_post', array($this, 'flush_widget_cache') );
+		add_action( 'deleted_post', array($this, 'flush_widget_cache') );
+		add_action( 'switch_theme', array($this, 'flush_widget_cache') );
+	}
+
+	/**
+	 * @param array $args
+	 * @param array $instance
+	 */
+	public function widget( $args, $instance ) {
+		$cache = array();
+		if ( ! $this->is_preview() ) {
+			$cache = wp_cache_get( 'widget_recent_posts', 'widget' );
+		}
+
+		if ( ! is_array( $cache ) ) {
+			$cache = array();
+		}
+
+		if ( ! isset( $args['widget_id'] ) ) {
+			$args['widget_id'] = $this->id;
+		}
+
+		if ( isset( $cache[ $args['widget_id'] ] ) ) {
+			echo $cache[ $args['widget_id'] ];
+			return;
+		}
+
+		ob_start();
+
+		$title = ( ! empty( $instance['title'] ) ) ? $instance['title'] : __( 'Recent Posts' );
+
+		/** This filter is documented in wp-includes/default-widgets.php */
+		$title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
+
+		$number = ( ! empty( $instance['number'] ) ) ? absint( $instance['number'] ) : 5;
+		if ( ! $number )
+			$number = 5;
+		$show_date = isset( $instance['show_date'] ) ? $instance['show_date'] : false;
+
+		/**
+		 * Filter the arguments for the Recent Posts widget.
+		 *
+		 * @since 3.4.0
+		 *
+		 * @see WP_Query::get_posts()
+		 *
+		 * @param array $args An array of arguments used to retrieve the recent posts.
+		 */
+		$r = new WP_Query( apply_filters( 'widget_posts_args', array(
+			'posts_per_page'      => $number,
+			'no_found_rows'       => true,
+			'post_status'         => 'publish',
+			'ignore_sticky_posts' => true
+		) ) );
+
+		if ($r->have_posts()) :
+?>
+		<?php echo $args['before_widget']; ?>
+		<?php echo '<div class="panel panel-default">'; ?>
+		<?php if ( $title ) {
+			//echo $args['before_title'] . $title . $args['after_title'];
+			echo '<div class="panel-heading"><h4 class="panel-title">' . $title . '</h4></div>';
+		} ?>
+        
+        <div class="panel-body">
+		<ul class="list-unstyled">
+		<?php while ( $r->have_posts() ) : $r->the_post(); ?>
+			<li>
+				<a href="<?php the_permalink(); ?>"><?php get_the_title() ? the_title() : the_ID(); ?></a>
+			<?php if ( $show_date ) : ?>
+				<span class="post-date"><?php echo get_the_date(); ?></span>
+			<?php endif; ?>
+			</li>
+		<?php endwhile; ?>
+		</ul>
+		</div>
+	</div>
+		<?php echo $args['after_widget']; ?>
+<?php
+		// Reset the global $the_post as this query will have stomped on it
+		wp_reset_postdata();
+
+		endif;
+
+		if ( ! $this->is_preview() ) {
+			$cache[ $args['widget_id'] ] = ob_get_flush();
+			wp_cache_set( 'widget_recent_posts', $cache, 'widget' );
+		} else {
+			ob_end_flush();
+		}
+	}
+
+	/**
+	 * @param array $new_instance
+	 * @param array $old_instance
+	 * @return array
+	 */
+	public function update( $new_instance, $old_instance ) {
+		$instance = $old_instance;
+		$instance['title'] = strip_tags($new_instance['title']);
+		$instance['number'] = (int) $new_instance['number'];
+		$instance['show_date'] = isset( $new_instance['show_date'] ) ? (bool) $new_instance['show_date'] : false;
+		$this->flush_widget_cache();
+
+		$alloptions = wp_cache_get( 'alloptions', 'options' );
+		if ( isset($alloptions['widget_recent_entries']) )
+			delete_option('widget_recent_entries');
+
+		return $instance;
+	}
+
+	/**
+	 * @access public
+	 */
+	public function flush_widget_cache() {
+		wp_cache_delete('widget_recent_posts', 'widget');
+	}
+
+	/**
+	 * @param array $instance
+	 */
+	public function form( $instance ) {
+		$title     = isset( $instance['title'] ) ? esc_attr( $instance['title'] ) : '';
+		$number    = isset( $instance['number'] ) ? absint( $instance['number'] ) : 5;
+		$show_date = isset( $instance['show_date'] ) ? (bool) $instance['show_date'] : false;
+?>
+		<p><label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label>
+		<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" /></p>
+
+		<p><label for="<?php echo $this->get_field_id( 'number' ); ?>"><?php _e( 'Number of posts to show:' ); ?></label>
+		<input id="<?php echo $this->get_field_id( 'number' ); ?>" name="<?php echo $this->get_field_name( 'number' ); ?>" type="text" value="<?php echo $number; ?>" size="3" /></p>
+
+		<p><input class="checkbox" type="checkbox" <?php checked( $show_date ); ?> id="<?php echo $this->get_field_id( 'show_date' ); ?>" name="<?php echo $this->get_field_name( 'show_date' ); ?>" />
+		<label for="<?php echo $this->get_field_id( 'show_date' ); ?>"><?php _e( 'Display post date?' ); ?></label></p>
+<?php
+	}
 }
+add_action('widgets_init', create_function('', 'return register_widget("TS_Widget_Recent_Posts");'));
 
 
-// 随机文章
-class RandomPostWidget extends WP_Widget   
-{   
-    function RandomPostWidget()   
-    {   
-        parent::WP_Widget('sl_random', 'Salong-随机文章', array('description' =>  '主题自带随机文章小工具') );   
-    }   
-    
-    function widget($args, $instance)   
-    {   
-        extract( $args );   
-    
-        $title = apply_filters('widget_title',empty($instance['title']) ? '随机文章' :    
-$instance['title'], $instance, $this->id_base);   
-        if ( empty( $instance['number'] ) || ! $number = absint( $instance['number'] ) )   
-        {   
-            $number = 10;   
-        }   
-    
-        $r = new WP_Query(array('posts_per_page' => $number, 'no_found_rows' => true,    
-'post_status' => 'publish', 'ignore_sticky_posts' => true, 'orderby' =>'rand'));   
-        if ($r->have_posts())   
-        {   
-            echo "\n";   
-            echo $before_widget;   
-            if ( $title ) echo $before_title . $title . $after_title;   
-            ?>   
-<ul class="line">   
-<?php  while ($r->have_posts()) : $r->the_post(); ?>   
-<li><a href="<?php the_permalink() ?>" title="<?php echo esc_attr(get_the_title() ? get_the_title() : get_the_ID()); ?>"><?php if ( get_the_title() ) the_title(); else the_ID(); ?></a></li>   
-<?php endwhile; ?>   
-</ul><?php   
-            echo $after_widget;   
-            wp_reset_postdata();   
-        }   
-    }   
-    
-    function update($new_instance, $old_instance)   
-    {   
-        $instance = $old_instance;   
-        $instance['title'] = strip_tags($new_instance['title']);   
-        $instance['number'] = (int) $new_instance['number'];   
-        return $instance;   
-    }   
-    
-    function form($instance)   
-    {   
-        $title = isset($instance['title']) ? esc_attr($instance['title']) : '';   
-        $number = isset($instance['number']) ? absint($instance['number']) : 10;?>   
-        <p><label for="<?php echo $this->get_field_id('title'); ?>">标题：</label>   
-        <input id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" /></p>   
-    
-        <p><label for="<?php echo $this->get_field_id('number'); ?>">数量：</label>   
-        <input id="<?php echo $this->get_field_id('number'); ?>" name="<?php echo $this->get_field_name('number'); ?>" type="text" value="<?php echo $number; ?>" size="3" /></p>   
-<?php   
-    }   
-    
-}   
-add_action('widgets_init', create_function('', 'return register_widget("RandomPostWidget");')); 
+/**
+ * Tag cloud widget class
+ *
+ * @since 2.8.0
+ */
+class TS_Widget_Tag_Cloud extends WP_Widget {
 
+	public function __construct() {
+		$widget_ops = array( 'description' => __( "A cloud of your most used tags.") );
+		parent::__construct('ts_tag_cloud', 'Tonysite - ' . __('Tag Cloud'), $widget_ops);
+	}
 
+	/**
+	 * @param array $args
+	 * @param array $instance
+	 */
+	public function widget( $args, $instance ) {
+		$current_taxonomy = $this->_get_current_taxonomy($instance);
+		if ( !empty($instance['title']) ) {
+			$title = $instance['title'];
+		} else {
+			if ( 'post_tag' == $current_taxonomy ) {
+				$title = __('Tags');
+			} else {
+				$tax = get_taxonomy($current_taxonomy);
+				$title = $tax->labels->name;
+			}
+		}
 
-// 最新评论
-class sl_widget extends WP_Widget {
-     function sl_widget() {
-         $widget_ops = array('description' => '最近评论小工具');
-         $this->WP_Widget('sl_widget', 'Salong-最近评论', $widget_ops);
-     }
-     function widget($args, $instance) {
-         extract($args);
-         $title = apply_filters('widget_title',esc_attr($instance['title']));
-         $limit = strip_tags($instance['limit']);
-         echo $before_widget.$before_title.$title.$after_title;
+		/** This filter is documented in wp-includes/default-widgets.php */
+		$title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
+
+        echo $args['before_widget'];
+		echo '<div class="panel panel-default">';
+		if ( $title ) {
+			//echo $args['before_title'] . $title . $args['after_title'];
+			echo '<div class="panel-heading"><h4 class="panel-title">' . $title . '</h4></div>';
+		}
+		echo '<div class="panel-body tag-cloud">';
+
+		/**
+		 * Filter the taxonomy used in the Tag Cloud widget.
+		 *
+		 * @since 2.8.0
+		 * @since 3.0.0 Added taxonomy drop-down.
+		 *
+		 * @see wp_tag_cloud()
+		 *
+		 * @param array $current_taxonomy The taxonomy to use in the tag cloud. Default 'tags'.
+		 */
+		wp_tag_cloud( apply_filters( 'widget_tag_cloud_args', array(
+			'taxonomy' => $current_taxonomy
+		) ) );
+
+		echo "</div>\n</div>";
+		echo $args['after_widget'];
+	}
+
+	/**
+	 * @param array $new_instance
+	 * @param array $old_instance
+	 * @return array
+	 */
+	public function update( $new_instance, $old_instance ) {
+		$instance = array();
+		$instance['title'] = strip_tags(stripslashes($new_instance['title']));
+		$instance['taxonomy'] = stripslashes($new_instance['taxonomy']);
+		return $instance;
+	}
+
+	/**
+	 * @param array $instance
+	 */
+	public function form( $instance ) {
+		$current_taxonomy = $this->_get_current_taxonomy($instance);
 ?>
-<ul>
-  <?php
-                global $wpdb;
-                $limit_num = $limit;
-                $my_email = "'" . get_bloginfo ('admin_email') . "'";
-                $rc_comms = $wpdb->get_results("SELECT ID, post_title, comment_ID, comment_author,comment_author_email,comment_date,comment_content FROM $wpdb->comments LEFT OUTER JOIN $wpdb->posts ON ($wpdb->comments.comment_post_ID  = $wpdb->posts.ID) WHERE comment_approved = '1' AND comment_type = '' AND post_password = '' AND comment_author_email != $my_email ORDER BY comment_date_gmt DESC LIMIT $limit_num ");
-                $rc_comments = '';
-                foreach ($rc_comms as $rc_comm) { $rc_comments .= "<li><section class='recent-comments'><span class='comment-avatar left'>" . get_avatar($rc_comm,$size='32') ."</span><p class='com-content right'><a href='". get_permalink($rc_comm->ID) . "#comment-" . $rc_comm->comment_ID. "' title='在 " . $rc_comm->post_title .  " 发表的评论'>".cut_str(strip_tags($rc_comm->comment_content),28)."…</a></p><br/><span class='comment-author left'>".$rc_comm->comment_author."</span><time class='comment-time right'>" .$rc_comm->comment_date."</time></section></li>\n";}
-                echo $rc_comments;
-            ?>
-</ul>
-<?php         
-         echo $after_widget;
-     }
-     function update($new_instance, $old_instance) {
-         if (!isset($new_instance['submit'])) {
-             return false;
-         }
-         $instance = $old_instance;
-         $instance['title'] = strip_tags($new_instance['title']);
-         $instance['limit'] = strip_tags($new_instance['limit']);
-         return $instance;
-     }
-    function form($instance) {
-    $instance = wp_parse_args( (array) $instance, array( 
-      'title' => '最新评论',
-      'limit' => '6' 
-      ) 
-    );
-         global $wpdb;
-         $instance = wp_parse_args((array) $instance, array('title'=> '','limit' => ''));
-         $title = esc_attr($instance['title']);
-         $limit = strip_tags($instance['limit']);
- ?>
-<p>
-  <label for="<?php echo $this->get_field_id('title'); ?>">标题：
-    <input id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" />
-  </label>
-</p>
-<p>
-  <label for="<?php echo $this->get_field_id('limit'); ?>">数量：
-    <input id="<?php echo $this->get_field_id('limit'); ?>" name="<?php echo $this->get_field_name('limit'); ?>" type="text" value="<?php echo $limit; ?>" />
-  </label>
-</p>
-<input type="hidden" id="<?php echo $this->get_field_id('submit'); ?>" name="<?php echo $this->get_field_name('submit'); ?>" value="1" />
-<?php
-     }
- }
- add_action('widgets_init', 'sl_widget_init');
- function sl_widget_init() {
-     register_widget('sl_widget');
- }
+	<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:') ?></label>
+	<input type="text" class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" value="<?php if (isset ( $instance['title'])) {echo esc_attr( $instance['title'] );} ?>" /></p>
+	<p><label for="<?php echo $this->get_field_id('taxonomy'); ?>"><?php _e('Taxonomy:') ?></label>
+	<select class="widefat" id="<?php echo $this->get_field_id('taxonomy'); ?>" name="<?php echo $this->get_field_name('taxonomy'); ?>">
+	<?php foreach ( get_taxonomies() as $taxonomy ) :
+				$tax = get_taxonomy($taxonomy);
+				if ( !$tax->show_tagcloud || empty($tax->labels->name) )
+					continue;
+	?>
+		<option value="<?php echo esc_attr($taxonomy) ?>" <?php selected($taxonomy, $current_taxonomy) ?>><?php echo $tax->labels->name; ?></option>
+	<?php endforeach; ?>
+	</select></p><?php
+	}
 
-// 标签云
- class sl_tags extends WP_Widget {
-     function sl_tags() {
-         $widget_ops = array('description' => '主题自带标签云小工具');
-         $this->WP_Widget('sl_tags', 'Salong-标签云', $widget_ops);
-     }
-     function widget($args, $instance) {
-         extract($args);
-         $title = apply_filters('widget_title',esc_attr($instance['title']));
-         $limit = strip_tags($instance['limit']);
-         $paichu = strip_tags($instance['paichu']);
-         echo $before_widget.$before_title.$title.$after_title;
+	/**
+	 * @param array $instance
+	 * @return string
+	 */
+	public function _get_current_taxonomy($instance) {
+		if ( !empty($instance['taxonomy']) && taxonomy_exists($instance['taxonomy']) )
+			return $instance['taxonomy'];
+
+		return 'post_tag';
+	}
+}
+add_action('widgets_init', create_function('', 'return register_widget("TS_Widget_Tag_Cloud");'));
 ?>
-<div class="sltags">
-  <?php $args = array(
-        'order'         => DESC,        
-        'orderby'       => count,
-        'number'        => $limit,
-        'exclude'        => $paichu
-    );
-    $tags_list = get_tags($args);
-        if ($tags_list) { 
-            foreach($tags_list as $tag) {
-                echo '<a href="'.get_tag_link($tag).'" title="'. $tag->name .' 标签下有 '.$tag->count.' 个文章，点击查看">'. $tag->name .'</a>'; 
-            } 
-        } 
-        ?>
-</div>
-<?php         
-         echo $after_widget;
-     }
-     function update($new_instance, $old_instance) {
-         if (!isset($new_instance['submit'])) {
-             return false;
-         }
-         $instance = $old_instance;
-         $instance['title'] = strip_tags($new_instance['title']);
-         $instance['limit'] = strip_tags($new_instance['limit']);
-         $instance['paichu'] = strip_tags($new_instance['paichu']);
-         return $instance;
-     }
-     function form($instance) {
-    $instance = wp_parse_args( (array) $instance, array( 
-      'title' => '标签云',
-      'limit' => '6' 
-      ) 
-    );
-         global $wpdb;
-         $instance = wp_parse_args((array) $instance, array('title'=> '', 'limit' => '', 'paichu' => ''));
-         $title = esc_attr($instance['title']);
-         $limit = strip_tags($instance['limit']);
-         $paichu = strip_tags($instance['paichu']);
- ?>
-<p>
-  <label for="<?php echo $this->get_field_id('title'); ?>">标题：
-    <input id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" />
-  </label>
-</p>
-<p>
-  <label for="<?php echo $this->get_field_id('limit'); ?>">数量：
-    <input id="<?php echo $this->get_field_id('limit'); ?>" name="<?php echo $this->get_field_name('limit'); ?>" type="number" value="<?php echo $limit; ?>" />
-  </label>
-</p>
-<p>
-  <label for="<?php echo $this->get_field_id('paichu'); ?>">排除：
-    <input id="<?php echo $this->get_field_id('paichu'); ?>" name="<?php echo $this->get_field_name('paichu'); ?>" type="text" value="<?php echo $paichu; ?>" />
-  </label>
-</p>
-<input type="hidden" id="<?php echo $this->get_field_id('submit'); ?>" name="<?php echo $this->get_field_name('submit'); ?>" value="1" />
-<?php
-     }
- }
- add_action('widgets_init', 'sl_tags_init');
- function sl_tags_init() {
-     register_widget('sl_tags');
- }
-
-?>
-
