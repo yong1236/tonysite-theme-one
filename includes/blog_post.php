@@ -12,7 +12,7 @@
         if (has_excerpt()){
             the_excerpt();
         } else{ 
-            //echo mb_strimwidth(strip_tags(apply_filters('the_content', $post->post_content)), 0, 116,"..."); 
+            echo mb_strimwidth(strip_tags(apply_filters('the_content', $post->post_content)), 0, 168,"..."); 
         }
     ?>
     </p>
