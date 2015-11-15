@@ -22,7 +22,7 @@ get_header();
     $cat_ID = get_query_var('cat');
     //这是一个不好的实现，实属无奈之举。有更高级的方法，只是没时间研究了
 ?>
-<?php if (in_array($cat_ID, array(3,4,5,6))) {?>
+<?php if (in_array($cat_ID, array(3,4,5,6,7,8,10))) {?>
 <?php include(TEMPLATEPATH .'/category-blog.php'); ?>
 <?php }else{?>
 <div class="jumbotron bloghead">
