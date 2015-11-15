@@ -13,7 +13,7 @@
  */ 
 class TS_Widget_Search extends WP_Widget {
     public function __construct() {
-		$widget_ops = array('classname' => 'widget_search', 'description' => __( "A search form for your site.") );
+		$widget_ops = array('classname' => 'widget-search', 'description' => __( "A search form for your site.") );
 		parent::__construct( 'ts_search', 'Tonysite - ' . _x( 'Search', 'Search widget' ), $widget_ops );
 	}
 
