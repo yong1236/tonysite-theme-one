@@ -1,0 +1,23 @@
+<section class="new-post">
+<ul class="media-list article-list">
+<?php 
+    $scrollcount = 10;//get_option('sl_new_post');
+    if(is_category()){
+        $cat_ID = get_query_var('cat');
+    }else{
+        $cat_ID = 3;
+    }
+?>
+<?php 
+    query_posts('category_name=&showposts='.$scrollcount.'&caller_get_posts=10.&cat='.$cat_ID);
+    //.get_option('sl_new_exclude')); 
+    while ( have_posts() ) : the_post();
+    //$do_not_duplicate[] = $post->ID; 
+?>
+<li>
+<?php include(TEMPLATEPATH .'/includes/post.php'); ?>
+</li>
+<?php endwhile; ?>
+</ul>
+</section>
+
