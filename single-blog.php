@@ -57,13 +57,14 @@ get_header(); ?>
 
 <section>
   <div class="container">
-    <ol class="breadcrumb">
+  <?php if ( function_exists('ts_breadcrumbs') ) : ts_breadcrumbs(); endif;?>
+    <!-- <ol class="breadcrumb">
       <li><a href="/">首页</a></li>
       <li><a href="/">博客</a></li>
       <li><a href="/">系列文章</a></li>
       <li><a href="/">Java基础</a></li>
       <li class="active">概念抽象、接口和类</li>
-    </ol>
+    </ol> -->
 
     <div class="row">
       <div class="col-sm-9">
@@ -79,21 +80,22 @@ get_header(); ?>
 			 * (where ___ is the post format) and that will be used instead.
 			 */
 			get_template_part( 'content', get_post_format() );
+			
+			// Previous/next post navigation.
+			the_post_navigation( array(
+			    'screen_reader_text'=> ' ' ,
+				'next_text' => '<span class="meta-nav" aria-hidden="true">' . '' . '</span> ' .
+					'<span class="screen-reader-text">' . '下一篇：' . '</span> ' .
+					'<span class="post-title">%title</span>',
+				'prev_text' => '<span class="meta-nav" aria-hidden="true">' . '' . '</span> ' .
+					'<span class="screen-reader-text">' . '上一篇：' . '</span> ' .
+					'<span class="post-title">%title</span>',
+			) );
 
 			// If comments are open or we have at least one comment, load up the comment template.
 			if ( comments_open() || get_comments_number() ) :
 				comments_template();
 			endif;
-
-			// Previous/next post navigation.
-			the_post_navigation( array(
-				'next_text' => '<span class="meta-nav" aria-hidden="true">' . __( 'Next', 'twentyfifteen' ) . '</span> ' .
-					'<span class="screen-reader-text">' . __( 'Next post:', 'twentyfifteen' ) . '</span> ' .
-					'<span class="post-title">%title</span>',
-				'prev_text' => '<span class="meta-nav" aria-hidden="true">' . __( 'Previous', 'twentyfifteen' ) . '</span> ' .
-					'<span class="screen-reader-text">' . __( 'Previous post:', 'twentyfifteen' ) . '</span> ' .
-					'<span class="post-title">%title</span>',
-			) );
 
 		// End the loop.
 		//endwhile;

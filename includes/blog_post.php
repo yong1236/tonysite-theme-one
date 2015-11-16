@@ -22,7 +22,7 @@
     <div class="article-action">
         <span>
           <a href="#"><span class="glyphicon glyphicon-folder-open"></span> <?php the_category(', ') ?></a>
-          <!-- <span class="glyphicon glyphicon-tags"></span> <a href="#">Bootstrap</a> -->
+          <span class="glyphicon glyphicon-tags"></span> <?php the_tags(', ') ?>
         </span>
         <span class="pull-right">
           <a href="#"><span class="glyphicon glyphicon-heart"></span> 20</a>

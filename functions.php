@@ -26,4 +26,7 @@ function tonysite_one(){
 }
 endif;  // tonysite_one
 add_action( 'after_setup_theme', 'tonysite_one' );
+
+//面包屑
+include("includes/breadcrumbs.php");
 ?>

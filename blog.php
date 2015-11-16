@@ -54,6 +54,7 @@ get_header();
 
 <!-- 网站主体 -->
 <section class="container wrapper">
+    <?php if ( function_exists('ts_breadcrumbs') ) : ts_breadcrumbs(); endif;?>
     <!-- <ol class="breadcrumb">
         <li><a href="/">首页</a></li>
         <li class="active">博客</li>
