@@ -12,7 +12,7 @@
     <!-- </div> --><!-- /.site-content -->
     <footer class="footer">
       <div class="container">
-        <div class="row footer-top">
+        <div class="row footer-top hidden">
           <div class="col-sm-6 col-lg-6">
             <h4>
               <img src="http://static.bootcss.com/www/assets/img/logo.png">
