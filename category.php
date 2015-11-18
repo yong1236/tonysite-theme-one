@@ -25,7 +25,7 @@ get_header();
 <?php if (in_array($cat_ID, array(3,4,5,6,7,8,10))) {?>
 <?php include(TEMPLATEPATH .'/category-blog.php'); ?>
 <?php }else{?>
-<div class="jumbotron bloghead">
+<div class="jumbotron bloghead hidden">
   <div id="particleground3"></div>
   <div id="particleground4"></div>
   <div class="container">
@@ -43,15 +43,16 @@ get_header();
 </div>
 
 <!-- 网站主体 -->
-<section class="container wrapper">
-    <ol class="breadcrumb">
+<section class="container wrapper" style="margin-top:30px">
+    <?php if ( function_exists('ts_breadcrumbs') ) : ts_breadcrumbs(); endif;?>
+    <ol class="breadcrumb hidden">
         <li><a href="/">首页</a></li>
         <li class="active">博客</li>
     </ol>
     
     <div class="row">
         <div class="col-sm-9">
-            <?php include('includes/new_posts.php'); ?>
+            <?php include('includes/blog_posts.php'); ?>
         </div>
         <div class="col-sm-3">
             
