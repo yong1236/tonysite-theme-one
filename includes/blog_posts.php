@@ -1,6 +1,7 @@
 <style>
 .artile-thumbnail img{
     max-width: 200px;
+    max-height: 150px;
 }
 </style>
 <ul class="media-list article-list">
