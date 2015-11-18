@@ -24,8 +24,8 @@
         'screen_reader_text'=> ' ' ,
         'prev_text'         => '上一页',
         'next_text'         =>'下一页',
-        'before_page_number'=> '<span class="meta-nav screen-reader-text">第 </span>',
-        'after_page_number' => '<span class="meta-nav screen-reader-text"> 页</span>',
+        //'before_page_number'=> '<span class="meta-nav screen-reader-text">第 </span>',
+        //'after_page_number' => '<span class="meta-nav screen-reader-text"> 页</span>',
     ) );
 ?>
 

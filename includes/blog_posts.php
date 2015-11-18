@@ -1,3 +1,8 @@
+<style>
+.artile-thumbnail img{
+    max-width: 200px;
+}
+</style>
 <ul class="media-list article-list">
 <?php 
     /*$scrollcount = 10;//get_option('sl_new_post');

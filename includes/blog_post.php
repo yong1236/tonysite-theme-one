@@ -1,7 +1,7 @@
-<div class="media-left">
+<div class="media-left artile-thumbnail">
     <a href="<?php the_permalink() ?>">
         <!-- <img class="media-object" width="200" src="http://static.bootcss.com/www/assets/img/codeguide.png" alt=""> -->
-        <?php if( function_exists("the_post_thumbnail") ){ the_post_thumbnail(); }?>
+        <?php the_post_thumbnail('medium'); ?>
     </a>
 </div>
 <div class="media-body">
