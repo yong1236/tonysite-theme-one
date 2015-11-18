@@ -17,12 +17,16 @@ function tonysite_one(){
 	 */
 	add_theme_support( 'title-tag' );
 	
+	//启用缩略图
+	add_theme_support('post-thumbnails');
+	
 	// This theme uses wp_nav_menu() in two locations.
 	register_nav_menus( array(
 		'primary' => __( 'Primary Menu',      'tonysiteone' ),
 		'social'  => __( 'Social Links Menu', 'tonysiteone' ),
 		'blog'    => __( 'Blog Menu',      'tonysiteone' )
 	) );
+	
 }
 endif;  // tonysite_one
 add_action( 'after_setup_theme', 'tonysite_one' );

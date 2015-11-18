@@ -1,16 +1,16 @@
 <ul class="media-list article-list">
 <?php 
-    $scrollcount = 10;//get_option('sl_new_post');
+    /*$scrollcount = 10;//get_option('sl_new_post');
     $query_str = 'showposts='.$scrollcount.'&caller_get_posts=10';
     if(is_category()){
         $cat_ID = get_query_var('cat');
         $query_str = $query_str.'&cat='.$cat_ID;
     }else{
         $query_str = $query_str.'&category_name=blog';
-    }
+    }*/
 ?>
 <?php 
-    query_posts($query_str);
+    //query_posts($query_str);
     while ( have_posts() ) : the_post();
     //$do_not_duplicate[] = $post->ID; 
 ?>
@@ -19,4 +19,13 @@
 </li>
 <?php endwhile; ?>
 </ul>
+<?php
+    the_posts_pagination( array(
+        'screen_reader_text'=> ' ' ,
+        'prev_text'         => '上一页',
+        'next_text'         =>'下一页',
+        //'before_page_number'=> '<span class="meta-nav screen-reader-text">第 </span>',
+        //'after_page_number' => '<span class="meta-nav screen-reader-text"> 页</span>',
+    ) );
+?>
 

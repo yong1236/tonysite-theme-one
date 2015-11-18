@@ -19,7 +19,7 @@
 	<header class="entry-header page-header">
 		<?php
 			if ( is_single() ) :
-				the_title( '<h1 class="entry-title text-center">', '</h1>' );
+				the_title( '<h2 class="entry-title text-center">', '</h2>' ); //h1
 			else :
 				the_title( sprintf( '<h2 class="entry-title"><a href="%s" rel="bookmark">', esc_url( get_permalink() ) ), '</a></h2>' );
 			endif;

@@ -68,19 +68,24 @@ get_header(); ?>
 
     <div class="row">
       <div class="col-sm-9">
-        <div class="box-common">
+        
         <?php
 		// Start the loop.
 		//while ( have_posts() ) : the_post();
         if ( have_posts() ) : the_post();
-
+        ?>
+        <div class="box-common">
+        <?php
 			/*
 			 * Include the post format-specific template for the content. If you want to
 			 * use this in a child theme, then include a file called called content-___.php
 			 * (where ___ is the post format) and that will be used instead.
 			 */
 			get_template_part( 'content', get_post_format() );
-			
+		?>
+		</div>
+		<div class="box-common">
+		<?php	
 			// Previous/next post navigation.
 			the_post_navigation( array(
 			    'screen_reader_text'=> ' ' ,
@@ -91,17 +96,22 @@ get_header(); ?>
 					'<span class="screen-reader-text">' . '上一篇：' . '</span> ' .
 					'<span class="post-title">%title</span>',
 			) );
-
+        ?>
+        </div>
+        <div class="box-common">
+        <?php
 			// If comments are open or we have at least one comment, load up the comment template.
 			if ( comments_open() || get_comments_number() ) :
 				comments_template();
 			endif;
-
+        ?>
+        </div>
+        <?php
 		// End the loop.
 		//endwhile;
 		endif;
 		?>
-        </div>
+        
       </div>
       <div class="col-sm-3">
         <?php if ( !function_exists('dynamic_sidebar') || !dynamic_sidebar('博客边栏') ) : ?>
