@@ -10,7 +10,7 @@
  */
 ?>
 
-<article id="post-<?php the_ID(); ?>" <?php //post_class(); ?> class="article">
+<article id="post-<?php the_ID(); ?>" <?php //post_class(); ?> class="article article-single">
 	<?php
 		// Post thumbnail.
 		//twentyfifteen_post_thumbnail();
