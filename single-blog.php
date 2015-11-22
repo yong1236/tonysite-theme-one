@@ -88,12 +88,11 @@ get_header(); ?>
 		<?php	
 			// Previous/next post navigation.
 			the_post_navigation( array(
-			    'screen_reader_text'=> ' ' ,
-				'next_text' => '<span class="meta-nav" aria-hidden="true">' . '' . '</span> ' .
-					'<span class="screen-reader-text">' . '下一篇：' . '</span> ' .
+				'next_text' => '<span class="meta-nav" aria-hidden="true">' . '下一篇：' . '</span> ' .
+					'<span class="screen-reader-text">' . '下一篇' . '</span> ' .
 					'<span class="post-title">%title</span>',
-				'prev_text' => '<span class="meta-nav" aria-hidden="true">' . '' . '</span> ' .
-					'<span class="screen-reader-text">' . '上一篇：' . '</span> ' .
+				'prev_text' => '<span class="meta-nav" aria-hidden="true">' . '上一篇：' . '</span> ' .
+					'<span class="screen-reader-text">' . '上一篇' . '</span> ' .
 					'<span class="post-title">%title</span>',
 			) );
         ?>
