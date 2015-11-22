@@ -1,10 +1,4 @@
-<style>
-.artile-thumbnail img{
-    max-width: 200px;
-    max-height: 150px;
-}
-</style>
-<ul class="media-list article-list">
+<div class="media-list article-list">
 <?php 
     /*$scrollcount = 10;//get_option('sl_new_post');
     $query_str = 'showposts='.$scrollcount.'&caller_get_posts=10';
@@ -20,11 +14,11 @@
     while ( have_posts() ) : the_post();
     //$do_not_duplicate[] = $post->ID; 
 ?>
-<li class="media">
+<article class="media">
 <?php include(TEMPLATEPATH .'/includes/blog_post.php'); ?>
-</li>
+</article>
 <?php endwhile; ?>
-</ul>
+</div>
 <?php
     the_posts_pagination( array(
         'screen_reader_text'=> ' ' ,

@@ -57,8 +57,8 @@ get_header();
         <div class="col-sm-6 col-md-4 col-lg-3 ">
           <div class="thumbnail">
             <a href="<?php the_permalink(); ?>" title="<?php  the_title(); ?>" target="_blank" rel="bookmark" onclick="_hmt.push(['_trackEvent', 'tile', 'click', 'codeguide'])">
-            <?php the_post_thumbnail('medium'); ?>
-            <!-- <img class="lazy" src="http://static.bootcss.com/www/assets/img/null.png?v2" width="300" height="150" data-src="http://static.bootcss.com/www/assets/img/codeguide.png" alt="Headroom.js"> -->
+            <?php $the_thumbnail_image_src = wp_get_attachment_image_src(get_post_thumbnail_id(),'medium')[0]; ?>
+                <img class="lazy" rsrc="http://static.bootcss.com/www/assets/img/null.png?v2" width="300" height="150" src="<?php echo $the_thumbnail_image_src ?>" alt="Headroom.js">
             </a>
             <div class="caption">
               <h3>

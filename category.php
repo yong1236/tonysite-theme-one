@@ -20,9 +20,17 @@ get_header();
     echo wp_list_categories('category_name=blog');
     echo get_category_by_slug('blog')->count;*/
     $cat_ID = get_query_var('cat');
+    //$curCat = get_category($cat_ID);
     //这是一个不好的实现，实属无奈之举。有更高级的方法，只是没时间研究了
+
+    $blogCatId = get_category_by_slug('blog')->cat_ID;
+    $cats = get_categories(array('child_of'=>$blogCatId));
+    $cat_IDs = array();
+    foreach($cats as $key=>$value){
+        $cat_IDs[] = $value->cat_ID;
+    }
 ?>
-<?php if (in_array($cat_ID, array(3,4,5,6,7,8,10))) {?>
+<?php if (in_array($cat_ID, $cat_IDs)) {?>
 <?php include(TEMPLATEPATH .'/category-blog.php'); ?>
 <?php }else{?>
 <div class="jumbotron bloghead hidden">

@@ -48,7 +48,7 @@
 	
 	<aside class="post-copyright">
       <div class="post-copy">
-        <span><?php the_title( '<span class="entry-title text-center">《', '》</span>' ); ?> 为 <a href="<?php echo home_url(); ?>" title="<?php bloginfo( 'name' ); ?>"><?php the_author_nickname(); ?></a> 原创，于 <?php the_time('Y年m月d日') ?> 发表在 <?php the_category(', ') ?> 分类下。 </span> <br/>
+        <span><?php the_title( '<span class="entry-title text-center">《', '》</span>' ); ?> 为 <a href="<?php echo home_url(); ?>" title="<?php bloginfo( 'name' ); ?>"><?php the_author(); ?></a> 编辑，于 <?php the_time('Y年m月d日') ?> 发表在 <?php the_category(', ') ?> 分类下。 </span> <br/>
         <span>欢迎转载，并保留本文有效链接： <?php the_title( sprintf( '<a href="%s" rel="bookmark">', esc_url( get_permalink() ) ), ' | ' . get_bloginfo('name') . '</a>' ); ?> </span>
       </div>
     </aside>

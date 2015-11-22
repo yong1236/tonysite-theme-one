@@ -9,7 +9,7 @@
 
 get_header(); ?>
 
-<div class="jumbotron bloghead">
+<div class="jumbotron bloghead hidden">
   <div id="particleground3"></div>
   <div id="particleground4"></div>
   <div class="container">

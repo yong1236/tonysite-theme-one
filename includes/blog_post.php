@@ -1,12 +1,14 @@
-<div class="media-left artile-thumbnail">
+<h4 class="media-heading"><a href="<?php the_permalink() ?>" rel="bookmark" target="_self" title="详细阅读 <?php the_title_attribute(); ?>"><?php the_title(); ?></a></h4>
+<?php if(has_post_thumbnail()): ?>
+<div class="media-left article-thumbnail">
     <a href="<?php the_permalink() ?>">
         <!-- <img class="media-object" width="200" src="http://static.bootcss.com/www/assets/img/codeguide.png" alt=""> -->
         <?php the_post_thumbnail('medium'); ?>
     </a>
 </div>
+<?php endif; ?>
 <div class="media-body">
-    <h4 class="media-heading"><a href="<?php the_permalink() ?>" rel="bookmark" target="_self" title="详细阅读 <?php the_title_attribute(); ?>"><?php the_title(); ?></a></h4>
-    <div class="article-author"><span>来源：原创</span> 作者：<a href="<?php echo home_url(); ?>" title="<?php bloginfo( 'name' ); ?>"><?php the_author_nickname(); ?></a> 发表时间：<?php the_time('Y年m月d日') ?></div>
+    <div class="article-author"><span>来源：-- </span> 作者：<a href="<?php echo home_url(); ?>" title="<?php bloginfo( 'name' ); ?>"><?php the_author_nickname(); ?></a> 发表时间：<?php the_time('Y年m月d日') ?></div>
     <p>
     <?php 
         if (has_excerpt()){
