@@ -22,8 +22,8 @@ get_header();
       <div id="no-particleground2"></div>
       <div class="container">
         <h1>Tony Een</h1>
-        <h2>一匹来自北方的狼</h2>
-        <p>漫漫长路，起伏不能由我；人海漂泊，尝尽人情淡薄</p>
+        <!--<h2>一匹来自北方的狼</h2>-->
+        <h2>漫漫长路，起伏不能由我；人海漂泊，尝尽人情淡薄</h2>
         <!--<p class="masthead-button-links">
           <a class="btn btn-lg btn-primary btn-shadow" href="http://v3.bootcss.com/" target="_blank" role="button" onclick="_hmt.push(['_trackEvent', 'masthead', 'click', 'masthead-Bootstrap3中文文档'])">Bootstrap3中文文档(v3.3.5)</a>
         </p>-->
@@ -62,14 +62,14 @@ get_header();
             </a>
             <div class="caption">
               <h3>
-                <a href="<?php the_permalink(); ?>" title="<?php  the_title(); ?>" target="_blank" rel="bookmark" onclick="_hmt.push(['_trackEvent', 'tile', 'click', 'codeguide'])"><?php the_title(); ?><br><small>by @mdo</small></a>
+                <a href="<?php the_permalink(); ?>" title="<?php  the_title(); ?>" target="_blank" rel="bookmark" onclick="_hmt.push(['_trackEvent', 'tile', 'click', 'codeguide'])"><?php the_title(); ?></a>
               </h3>
               <p>
                 <?php
                     if (has_excerpt()){
                         the_excerpt();
                     } else{
-                        //echo mb_strimwidth(strip_tags(apply_filters('the_content', $post->post_content)), 0, 168,"...");
+                        echo mb_strimwidth(strip_tags(apply_filters('the_content', $post->post_content)), 0, 168,"...");
                     }
                 ?>
               </p>
@@ -131,7 +131,7 @@ get_header();
             </a>
             <div class="caption">
               <h3>
-                <a href="<?php the_permalink(); ?>" title="<?php  the_title(); ?>" target="_blank" rel="bookmark" onclick="_hmt.push(['_trackEvent', 'tile', 'click', 'codeguide'])"><?php the_title(); ?><br><small>by @mdo</small></a>
+                <a href="<?php the_permalink(); ?>" title="<?php  the_title(); ?>" target="_blank" rel="bookmark" onclick="_hmt.push(['_trackEvent', 'tile', 'click', 'codeguide'])"><?php the_title(); ?></a>
               </h3>
               <p>
                 <?php
