@@ -24,7 +24,7 @@
 				the_title( sprintf( '<h2 class="entry-title"><a href="%s" rel="bookmark">', esc_url( get_permalink() ) ), '</a></h2>' );
 			endif;
 		?>
-		<div class="article-author text-center"><span>来源：-- </span> 作者：<a href="<?php echo home_url(); ?>" title="<?php bloginfo( 'name' ); ?>"><?php the_author_nickname(); ?></a> 发表时间：<?php the_time('Y年m月d日') ?></div>
+		<div class="article-author text-center"><span>来源：原创</span> 作者：<a href="<?php echo home_url(); ?>" title="<?php bloginfo( 'name' ); ?>"><?php the_author_nickname(); ?></a> 发表时间：<?php the_time('Y年m月d日') ?></div>
 	</header><!-- .entry-header -->
 	
 	<div class="entry-content article-content">
@@ -48,7 +48,7 @@
 	
 	<aside class="post-copyright">
       <div class="post-copy">
-        <span><?php the_title( '<span class="entry-title text-center">《', '》</span>' ); ?> 为 <a href="<?php echo home_url(); ?>" title="<?php bloginfo( 'name' ); ?>"><?php the_author(); ?></a> 整理编辑，于 <?php the_time('Y年m月d日') ?> 发表在 <?php the_category(', ') ?> 分类下。 </span> <br/>
+        <span><?php the_title( '<span class="entry-title text-center">《', '》</span>' ); ?> 为 <a href="<?php echo home_url(); ?>" title="<?php bloginfo( 'name' ); ?>"><?php the_author(); ?></a> 编辑，于 <?php the_time('Y年m月d日') ?> 发表在 <?php the_category(', ') ?> 分类下。 </span> <br/>
         <span>欢迎转载，并保留本文有效链接： <?php the_title( sprintf( '<a href="%s" rel="bookmark">', esc_url( get_permalink() ) ), ' | ' . get_bloginfo('name') . '</a>' ); ?> </span>
       </div>
     </aside>
@@ -63,7 +63,6 @@
 	<footer class="entry-footer">
 		<?php //twentyfifteen_entry_meta(); ?>
 		<?php edit_post_link( __( 'Edit', 'twentyfifteen' ), '<span class="edit-link">', '</span>' ); ?>
-		<a href="#">导出</a>
 	</footer><!-- .entry-footer -->
 	
 	<div class="article-action">

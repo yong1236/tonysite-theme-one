@@ -36,11 +36,11 @@ get_header();
     </div>
     <?php
         $sticky = get_option('sticky_posts');
-        rsort( $sticky );  
+        rsort( $sticky );
     ?>
-    
-    <?php 
-        //$sticky = array_slice( $sticky, 0, 4);  
+
+    <?php
+        //$sticky = array_slice( $sticky, 0, 4);
         query_posts( array( 'post__in' => $sticky, 'caller_get_posts' => 1, 'category_name' => 'blog', 'posts_per_page' => 8 ) );
         if(have_posts()):
     ?>
@@ -49,7 +49,7 @@ get_header();
         <h2>Tony发表或收藏他人的精品文章推荐</h2>
         <p>这些文章是Tony在成长中的积累，或是探索、或是教训、或是经验</p>
       </div>
-      
+
       <div class="row">
       <?php
         while (have_posts()) : the_post();
@@ -57,19 +57,19 @@ get_header();
         <div class="col-sm-6 col-md-4 col-lg-3 ">
           <div class="thumbnail">
             <a href="<?php the_permalink(); ?>" title="<?php  the_title(); ?>" target="_blank" rel="bookmark" onclick="_hmt.push(['_trackEvent', 'tile', 'click', 'codeguide'])">
-            <?php $the_thumbnail_image_src = wp_get_attachment_image_src(get_post_thumbnail_id(),'medium')[0]; ?>
-                <img class="lazy" rsrc="http://static.bootcss.com/www/assets/img/null.png?v2" width="300" height="150" src="<?php echo $the_thumbnail_image_src ?>" alt="Headroom.js">
+            <?php $the_thumbnail_image_src = wp_get_attachment_image_src(get_post_thumbnail_id(),'medium'); ?>
+                <img class="lazy" rsrc="http://static.bootcss.com/www/assets/img/null.png?v2" width="300" height="150" src="<?php echo $the_thumbnail_image_src[0]; ?>" alt="Headroom.js">
             </a>
             <div class="caption">
               <h3>
                 <a href="<?php the_permalink(); ?>" title="<?php  the_title(); ?>" target="_blank" rel="bookmark" onclick="_hmt.push(['_trackEvent', 'tile', 'click', 'codeguide'])"><?php the_title(); ?><br><small>by @mdo</small></a>
               </h3>
               <p>
-                <?php 
+                <?php
                     if (has_excerpt()){
                         the_excerpt();
-                    } else{ 
-                        echo mb_strimwidth(strip_tags(apply_filters('the_content', $post->post_content)), 0, 168,"..."); 
+                    } else{
+                        //echo mb_strimwidth(strip_tags(apply_filters('the_content', $post->post_content)), 0, 168,"...");
                     }
                 ?>
               </p>
@@ -97,7 +97,7 @@ get_header();
 
     <?php
         query_posts( array( 'post__in' => $sticky, 'caller_get_posts' => 1, 'category_name' => 'projects', 'posts_per_page' => 8 ) );
-        if(have_posts()): 
+        if(have_posts()):
     ?>
     <div class="container projects">
       <div class="projects-header page-header">
@@ -119,8 +119,8 @@ get_header();
             </div>
           </div>
         </div> -->
-        
-      <?php 
+
+      <?php
         while (have_posts()) : the_post();
       ?>
         <div class="col-sm-6 col-md-4 col-lg-3 ">
@@ -134,11 +134,11 @@ get_header();
                 <a href="<?php the_permalink(); ?>" title="<?php  the_title(); ?>" target="_blank" rel="bookmark" onclick="_hmt.push(['_trackEvent', 'tile', 'click', 'codeguide'])"><?php the_title(); ?><br><small>by @mdo</small></a>
               </h3>
               <p>
-                <?php 
+                <?php
                     if (has_excerpt()){
                         the_excerpt();
-                    } else{ 
-                        echo mb_strimwidth(strip_tags(apply_filters('the_content', $post->post_content)), 0, 168,"..."); 
+                    } else{
+                        echo mb_strimwidth(strip_tags(apply_filters('the_content', $post->post_content)), 0, 168,"...");
                     }
                 ?>
               </p>

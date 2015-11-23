@@ -65,21 +65,8 @@ get_header();
         <div class="col-sm-3">
             
         </div>
-    </div>  
-    
-	<!-- 最新文章与文章列表 -->
-	<div class="content-wrap left">
-		<!-- 最新文章 -->
-		<?php //include('includes/new_posts.php'); ?>
-		<!-- 最新文章end -->
-		<!-- 文章列表 -->
-		<?php //include('includes/cms.php'); ?>
-		<!-- 文章列表end -->
-	</div>
-	<!-- 最新文章与文章列表end -->
-	<!-- 首页边栏 -->
-		<?php //get_sidebar(); ?>
-	<!-- 首页边栏end -->
+    </div>
+
 </section>
 <div class="clearfix"></div>
 <!-- 网站主体end -->
