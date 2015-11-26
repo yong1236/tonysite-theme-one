@@ -61,10 +61,10 @@ get_header();
     </ol> -->
     
     <div class="row">
-        <div class="col-sm-9">
+        <div class="col-sm-8">
             <?php include('includes/blog_posts.php'); ?>
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-4">
             <?php if ( !function_exists('dynamic_sidebar') || !dynamic_sidebar('博客边栏') ) : ?>
 		    <?php endif; ?>
         </div>
