@@ -67,14 +67,14 @@ get_header(); ?>
     </ol> -->
 
     <div class="row">
-      <div class="col-sm-9">
+      <div class="col-sm-8">
         
         <?php
 		// Start the loop.
 		//while ( have_posts() ) : the_post();
         if ( have_posts() ) : the_post();
         ?>
-        <div class="box-common">
+        <div class="box-common" style="border: none">
         <?php
 			/*
 			 * Include the post format-specific template for the content. If you want to
@@ -84,7 +84,7 @@ get_header(); ?>
 			get_template_part( 'content', get_post_format() );
 		?>
 		</div>
-		<div class="box-common">
+		<div class="box-common" style="border: none">
 		<?php	
 			// Previous/next post navigation.
 			the_post_navigation( array(
@@ -97,7 +97,7 @@ get_header(); ?>
 			) );
         ?>
         </div>
-        <div class="box-common">
+        <div class="box-common" style="border: none">
         <?php
 			// If comments are open or we have at least one comment, load up the comment template.
 			if ( comments_open() || get_comments_number() ) :
@@ -112,7 +112,7 @@ get_header(); ?>
 		?>
         
       </div>
-      <div class="col-sm-3">
+      <div class="col-sm-4 sidebar">
         <?php if ( !function_exists('dynamic_sidebar') || !dynamic_sidebar('博客边栏') ) : ?>
 		<?php endif; ?>
       </div>

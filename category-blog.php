@@ -64,7 +64,7 @@ get_header();
         <div class="col-sm-8">
             <?php include('includes/blog_posts.php'); ?>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-4 sidebar">
             <?php if ( !function_exists('dynamic_sidebar') || !dynamic_sidebar('博客边栏') ) : ?>
 		    <?php endif; ?>
         </div>
